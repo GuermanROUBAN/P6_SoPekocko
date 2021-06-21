@@ -34,7 +34,7 @@ app.use(bodyParser.json()); // Il va transformer le corps de la requete en objet
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
 // on enregistre nos routeurs dans notre application
-app.use('/api/sauce', sauceRoutes);
+app.use('/api/sauces', sauceRoutes);
 app.use('/api/auth', userRoutes);
 
 module.exports = app;
