@@ -1,7 +1,7 @@
 
 const mongoose = require('mongoose');
 
-const SauceSchema = mongoose.Schema({
+const sauceSchema = mongoose.Schema({
 //id: => ObjectID => "identifiant unique créé par MandoDB",
 userId:{ type: String, required: true }, // "identifiant unique MandoDB pour l utilisateur qui a créé la sauce",
 name: { type: String, required: true },//"nom de la sauce",
@@ -16,4 +16,4 @@ usersLiked: { type: [String], required: true },// "tableau d'identifiants d'util
 usersDisliked:{ type: [String], required: true },//"tableau d'identifiants d'utilisateurs n'ayant pas aimé la sauce"title: { type: String, required: true },
 });
 
-module.exports = mongoose.model('Sauce', SauceSchema);
+module.exports = mongoose.model('Sauce', sauceSchema);
