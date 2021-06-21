@@ -1,4 +1,3 @@
-/*
 
 const mongoose = require('mongoose');
 
@@ -18,4 +17,3 @@ usersDisliked:{ type: [String], required: true },//"tableau d'identifiants d'uti
 });
 
 module.exports = mongoose.model('Sauce', SauceSchema);
-*/

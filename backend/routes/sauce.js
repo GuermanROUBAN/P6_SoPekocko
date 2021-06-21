@@ -2,13 +2,7 @@ const express = require('express');
 
 const router = express.Router();
 
-const stuffCtrl = require('../controllers/sauce');
-
-const express = require('express');
-
-const router = express.Router();
-
-const stuffCtrl = require('../controllers/sauce');
+const stuffCtrl = require('../controllers/stuff');
 
 const auth = require('../middleware/auth');
 
