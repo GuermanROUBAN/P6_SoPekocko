@@ -8,7 +8,7 @@ const mongoose = require('mongoose');
 const path = require ('path'); // donne accés au chemin de notre système de fichiers
 
 
-const stuffRoutes = require('./routes/stuff');
+const sauceRoutes = require('./routes/sauce');
 //-----------------------------------------------------------------------------
 const userRoutes = require('./routes/user');
 
@@ -34,7 +34,7 @@ app.use(bodyParser.json()); // Il va transformer le corps de la requete en objet
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
 // on enregistre nos routeurs dans notre application
-app.use('/api/stuff', stuffRoutes);
+app.use('/api/sauce', sauceRoutes);
 app.use('/api/auth', userRoutes);
 
 module.exports = app;
