@@ -2,6 +2,7 @@
 const Sauce = require('../models/Sauce');
 const fs = require ('fs');
 
+// Création sauce
 exports.creatSauce = (req, res, next) => {
   const sauceObject = JSON.parse(req.body.sauce);// on extrait l'objet JSON du Sauce
   delete sauceObject._id;
@@ -14,8 +15,10 @@ exports.creatSauce = (req, res, next) => {
       .catch(error => res.status(400).json({ error })); // renvoie une reponse avec l'erreur
   };
 
+// Modification sauce
 exports.modifySauce =  (req, res, next) => {
-    const sauceObject = req.file ?// si reg.file existe on aura un type d'objet et s'il n'existe pas on aura un autre type d'objet
+  const sauceObject = req.file ?// si reg.file existe on aura un type d'objet et s'il n'existe 
+    //pas on aura un autre type d'objet
     { // On rajoute une image
       ...JSON.parse(req.body.sauce), // on recupere toutes les infos sur l'objet dans cette partie de la requete
       imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}` // on genere une nouvelle image. On modifi sauceObject l.26 en modifiant son identifiant.
@@ -30,8 +33,8 @@ exports.modifySauce =  (req, res, next) => {
 exports.deleteSauce = (req, res, next) => { // 
     Sauce.findOne({_id: req.params.id})
     .then(sauce => {
-      const filename = sauce.imageUrl.split('/images')[1];
-      fs.unlink(`images/${filename}`, () => {
+      const fileName = sauce.imageUrl.split('/images')[1];
+      fs.unlink(`images/${fileName}`, () => {
         Sauce.deleteOne({_id: req.params.id}) // On lui passe un objet correspondant au document à supprimer. 
     // Et on envoie une reponse de réussite au F_e?.
           .then(() => res.status(200).json({message:"Sauce supprimée!"}))
@@ -48,7 +51,7 @@ exports.getOneSauce = (req, res, next) => { // use devient get car on veut que l
     .catch(error => res.status(404).json({error})); // si aucun Sauce ou une erreur alors envoie 404 au F-e.
   }
 
-exports.getAllSauce = (req, res, next) => {// use devient get car on veut que les requetes get
+exports.getAllSauces = (req, res, next) => {// use devient get car on veut que les requetes get
     Sauce.find() // On veut la liste complete qui nous retourne une promise
       .then(sauces => res.status(200).json(sauces)) // il va nous renvoyer le tableau des sauces
       .catch(error => res.status(400).json({error}));
