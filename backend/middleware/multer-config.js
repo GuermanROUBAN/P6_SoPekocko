@@ -1,4 +1,4 @@
-//on a installé multer on va à present l'e charger
+//on a installé multer on va à present le charger
 
 const multer = require("multer");
 
@@ -19,6 +19,7 @@ const storage = multer.diskStorage({
     }
 });
 
+// Exportation de multer
 module.exports = multer({storage}).single('image');// nous exportons multer entierement configuré 
 //lui passons la constante storage
 // et lui indiquons que nous generons uniquement les telechargements des fichiers images.
