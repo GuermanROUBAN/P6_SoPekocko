@@ -1,5 +1,6 @@
 const mongoose = require ('mongoose');
-const uniqueValidator = require ('mongoose-unique-validator');
+// Controle qu'il n'y a qu'un seul compte pour une adresse mail
+const uniqueValidator = require('mongoose-unique-validator');
 
 
 
