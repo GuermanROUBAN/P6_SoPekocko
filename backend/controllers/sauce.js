@@ -85,20 +85,60 @@ exports.getAllSauces = (req, res, next) => {// use devient get car on veut que l
 // Like/dislike une sauce
 exports.likeSauce = (req, res, next) => {
   // Récupération d'une sauce
-  Sauce.findOne({ _id: req.params.id })
+  Sauce.findOne({ _id: req.params.id })// on cherche la sauce par l'id (id rouge dans la BD)
     .then(sauce => {
-      switch (req.body.like) { // recuperer la valeur du front
-        case -1:
-          // ajout l'id de l'user dans users Dislikes
-          // mettre à jour le compteur (sauce.dislikes ++)
+      switch (req.body.like) { // recuperer la valeur du front end
+        case -1: // L'utilisateur a appuye sur dislike
+          Sauce.updateOne({ _id: req.params.id }, { // on update la sauce 
+            $inc: { dislikes: 1 }, // dans dislike on ajoute 1
+            $push: { usersDisliked: req.body.userId }, // on ajoute dans le tableau usersDisliked l'id de l'user qui a disliké
+            
+          })
+            .then(() => res.status(201).json({ message: 'Dislike !' }))
+            .catch(error => res.status(400).json({ error }))
+          break;
+        // ajout l'id de l'user dans users Dislikes
+        // mettre à jour le compteur (sauce.dislikes ++)
         case 0: // si c'est 0 user est neutre, donc null par son userID
-          // regarder si l'id est présent dans l'users Dislikes
-          // regarder si l'id est présent dans l'users Likes
-          // mettre à jour le compteur
-        case 1: 
+          //Cas -1 Like :
+          if (sauce.usersLiked.find(user => user === req.body.userId)) { // massif avec les users qui on like notre sauce
+            Sauce.updateOne({ _id: req.params.id }, {
+              $inc: { likes: -1 },
+              $pull: { usersLiked: req.body.userId },
+            
+            })
+              .then(() => res.status(201).json({ message: ' Like retiré !' }))
+              .catch(error => res.status(400).json({ error }))
+          }
+
+          //Cas -1 dislike :
+          if (sauce.usersDisliked.find(user => user === req.body.userId)) {
+            Sauce.updateOne({ _id: req.params.id }, {
+              $inc: { dislikes: -1 },
+              $pull: { usersDisliked: req.body.userId },
+              
+            })
+              .then(() => res.status(201).json({ message: ' Dislike retiré !' }))
+              .catch(error => res.status(400).json({ error }));
+          }
+          break
+        // regarder si l'id est présent dans l'users Dislikes
+        // regarder si l'id est présent dans l'users Likes
+        // mettre à jour le compteur
+        case 1:
+          Sauce.updateOne({ _id: req.params.id }, {
+            $inc: { likes: 1 },
+            $push: { usersLiked: req.body.userId },
+            
+          })
+            .then(() => res.status(201).json({ message: 'Like ajouté !' }))
+            .catch(error => res.status(400).json({ error }));
+          break;
+        default:
+          return res.status(500).json({ error });
         // ajout l'id de l'user ds users liked
         // mettre à jour le compteur
-          if (sauce.usersLiked.find);
       }
     })
+    .catch(error => res.status(500).json({ error }))
 }
