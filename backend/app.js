@@ -32,8 +32,9 @@ const userRoutes = require('./routes/user');
 //-----------------------------------------------------------------------------
 require('dotenv').config()
 
+
 // Connexion à MangoDB
-mongoose.connect('mongodb+srv://${process.env.DB_USER}:${process.env.DB_USER}@cluster0.lix0p.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
+mongoose.connect('mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}/${process.env.DB_NAME}?retryWrites=true&w=majority',
   { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))
