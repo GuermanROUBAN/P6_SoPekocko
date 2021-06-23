@@ -84,11 +84,20 @@ exports.getAllSauces = (req, res, next) => {// use devient get car on veut que l
 
 // Like/dislike une sauce
 exports.likeSauce = (req, res, next) => {
-  // Récupération d'u'une sauce
+  // Récupération d'une sauce
   Sauce.findOne({ _id: req.params.id })
     .then(sauce => {
-      switch (req.body.like) {
+      switch (req.body.like) { // recuperer la valeur du front
+        case -1:
+          // ajout l'id de l'user dans users Dislikes
+          // mettre à jour le compteur (sauce.dislikes ++)
         case 0: // si c'est 0 user est neutre, donc null par son userID
+          // regarder si l'id est présent dans l'users Dislikes
+          // regarder si l'id est présent dans l'users Likes
+          // mettre à jour le compteur
+        case 1: 
+        // ajout l'id de l'user ds users liked
+        // mettre à jour le compteur
           if (sauce.usersLiked.find);
       }
     })
