@@ -12,6 +12,12 @@ const mongoose = require('mongoose');
 // Gestion du système de fichier : donne accès au chemin de notre système de fichiers
 const path = require('path');
 //-----------------------------------------------------------------------------
+
+
+
+
+
+
 // Protection de l'application avec helmet
 // const helmet =  require('helmet');
 //-----------------------------------------------------------------------------
@@ -24,9 +30,10 @@ const sauceRoutes = require('./routes/sauce');
 //-----------------------------------------------------------------------------
 const userRoutes = require('./routes/user');
 //-----------------------------------------------------------------------------
+require('dotenv').config()
 
 // Connexion à MangoDB
-mongoose.connect('mongodb+srv://Redgogo:Test06220@cluster0.lix0p.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
+mongoose.connect('mongodb+srv://${process.env.DB_USER}:${process.env.DB_USER}@cluster0.lix0p.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
   { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))
