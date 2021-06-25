@@ -97,47 +97,40 @@ exports.likeSauce = (req, res, next) => {
             .then(() => res.status(201).json({ message: 'Dislike !' }))
             .catch(error => res.status(400).json({ error }))
           break;
-        // ajout l'id de l'user dans users Dislikes
-        // mettre à jour le compteur (sauce.dislikes ++)
-        case 0: // si c'est 0 user est neutre, donc null par son userID
-          //Cas -1 Like :
+
+        case 0:
+          //Cas -1 Like : On retire un like
           if (sauce.usersLiked.find(user => user === req.body.userId)) { // massif avec les users qui on like notre sauce
             Sauce.updateOne({ _id: req.params.id }, {
               $inc: { likes: -1 },
-              $pull: { usersLiked: req.body.userId },
-            
+              $pull: { usersLiked: req.body.userId },          
             })
               .then(() => res.status(201).json({ message: ' Like retiré !' }))
               .catch(error => res.status(400).json({ error }))
           }
 
-          //Cas -1 dislike :
+          //Cas -1 dislike : On retire un dislike
           if (sauce.usersDisliked.find(user => user === req.body.userId)) {
             Sauce.updateOne({ _id: req.params.id }, {
               $inc: { dislikes: -1 },
-              $pull: { usersDisliked: req.body.userId },
-              
+              $pull: { usersDisliked: req.body.userId },            
             })
               .then(() => res.status(201).json({ message: ' Dislike retiré !' }))
               .catch(error => res.status(400).json({ error }));
           }
           break
-        // regarder si l'id est présent dans l'users Dislikes
-        // regarder si l'id est présent dans l'users Likes
-        // mettre à jour le compteur
+
         case 1:
           Sauce.updateOne({ _id: req.params.id }, {
             $inc: { likes: 1 },
-            $push: { usersLiked: req.body.userId },
-            
+            $push: { usersLiked: req.body.userId },          
           })
             .then(() => res.status(201).json({ message: 'Like ajouté !' }))
             .catch(error => res.status(400).json({ error }));
           break;
         default:
           return res.status(500).json({ error });
-        // ajout l'id de l'user ds users liked
-        // mettre à jour le compteur
+
       }
     })
     .catch(error => res.status(500).json({ error }))
