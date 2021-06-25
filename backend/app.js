@@ -13,10 +13,9 @@ const mongoose = require('mongoose');
 const path = require('path');
 //-----------------------------------------------------------------------------
 // Protection de l'application avec helmet
-// const helmet =  require('helmet');
+const helmet = require('helmet');
 //-----------------------------------------------------------------------------
-// Protection contre les attaques des pollution des paramètres HTPP
-//const hpp = require ('hpp');
+
 
 require('dotenv').config()
 
@@ -56,12 +55,11 @@ app.use(bodyParser.json());
 //-----------------------------------------------------------------------------
 
 // Protection de l'application avec helmet
-//app.use(helmet());
+app.use(helmet());
+//console.log('Helmet activé', helmet)
+
 //-----------------------------------------------------------------------------
 
-// Utisation de hpp
-//app.use(hpp());
-//-----------------------------------------------------------------------------
 
 // Utilisation du path pour enregistrement des photos sur le BE
 app.use('/images', express.static(path.join(__dirname, 'images')));
