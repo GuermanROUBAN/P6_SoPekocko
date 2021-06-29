@@ -102,25 +102,29 @@ exports.likeSauce = (req, res, next) => {
           //Cas -1 Like : On retire un like
           if (sauce.usersLiked.find(user => user === req.body.userId)) { // massif avec les users qui on like notre sauce
             Sauce.updateOne({ _id: req.params.id }, {
-              $inc: { likes: -1 },
-              $pull: { usersLiked: req.body.userId },          
+              //Array Update Operators
+              //The $inc operator increments a field by a specified value and has the following form:
+              $inc: { likes: -1 }, //on retire un like
+              //The $pull operator removes from an existing array all instances of a value or values that match a specified condition.
+              $pull: { usersLiked: req.body.userId }, // on retire de la base de donnée l'user qui a like
             })
               .then(() => res.status(201).json({ message: ' Like retiré !' }))
               .catch(error => res.status(400).json({ error }))
           }
 
           //Cas -1 dislike : On retire un dislike
-          if (sauce.usersDisliked.find(user => user === req.body.userId)) {
+          if (sauce.usersDisliked.find(user => user === req.body.userId)) {// massif avec les users qui on dislike notre sauce
             Sauce.updateOne({ _id: req.params.id }, {
+              //Array Update Operators
               $inc: { dislikes: -1 },
-              $pull: { usersDisliked: req.body.userId },            
+              $pull: { usersDisliked: req.body.userId }, // on retire de la base de donnée l'user qui a dislike       
             })
               .then(() => res.status(201).json({ message: ' Dislike retiré !' }))
               .catch(error => res.status(400).json({ error }));
           }
           break
 
-        case 1:
+        case 1:// L'utilisateur a appuye sur like
           Sauce.updateOne({ _id: req.params.id }, {
             $inc: { likes: 1 },
             $push: { usersLiked: req.body.userId },          

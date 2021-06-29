@@ -1,4 +1,4 @@
-const jwt = require ('jsonwebtoken');
+const jwt = require ('jsonwebtoken'); // permet de securiser les requettes
 
 module.exports = (req, res, next) => {
     try{
