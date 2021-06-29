@@ -11,6 +11,7 @@ const multer = require('../middleware/multer-config');
 // Importation du controller sauce
 const sauceCtrl = require('../controllers/sauce');
 //-----------------------------------------------------------------------------
+//Les routes permettent de faire le lien avec l'API
 
 // Enregistrement des sauces dans la base de donnée
 router.post('/', auth, multer, sauceCtrl.creatSauce); 
