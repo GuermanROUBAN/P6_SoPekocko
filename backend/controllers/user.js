@@ -10,20 +10,27 @@ const jwt = require('jsonwebtoken'); // on l'importe ici
 // On aura besoin de notre model MDW
 const User = require('../models/User');
 
+const passwordValidator = require('../middleware/passwordValidator');
+
 
 // Enregistrement de nos utilisateurs
 exports.signup = (req, res, next) => {
-    bcrypt.hash(req.body.password, 10) // on va commencer par Hasher le MP avec fon assync/ 10 trs de hashage
-        .then(hash => { // on va recuperer le hash du MP et l'enregistrer comme le nv user dans la BD
-            const user = new User({// notre modele mangoose va créér un nouveau user
-                email: req.body.email,
-                password: hash  // on va enregistrer le MP de la ligne l.17
-            });
-            user.save() // on enregistre dans la BD
-                .then(() => res.status(201).json({ message: 'Utilisateur créé !' })) // 201 pour création de ressources
-                .catch(error => res.status(400).json({ error }));
-        })
-        .catch(error => res.status(500).json({ error }))
+    if (passwordValidator.validate(req.body.password)) {
+        bcrypt.hash(req.body.password, 10) // on va commencer par Hasher le MP avec fon assync/ 10 trs de hashage
+            .then(hash => { // on va recuperer le hash du MP et l'enregistrer comme le nv user dans la BD
+                const user = new User({// notre modele mangoose va créér un nouveau user
+                    email: req.body.email,
+                    password: hash  // on va enregistrer le MP de la ligne l.17
+                });
+                user.save() // on enregistre dans la BD
+                    .then(() => res.status(201).json({ message: 'Utilisateur créé !' })) // 201 pour création de ressources
+                    .catch(error => res.status(400).json({ error }));
+            })
+            .catch(error => res.status(500).json({ error }))
+    }
+    else {
+        return res.status(400).json({ message: 'Le mot de passe doit contenir au moins un chiffre, une minuscule, une majuscule et être composé de 8 caractères minimum !' })
+    }
 };
 
 // Connnecter les utilisateurs existants
