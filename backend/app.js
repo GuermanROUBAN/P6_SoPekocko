@@ -16,6 +16,18 @@ const path = require('path');
 const helmet = require('helmet');
 //-----------------------------------------------------------------------------
 
+const rateLimit = require("express-rate-limit");
+
+// Enable if you're behind a reverse proxy (Heroku, Bluemix, AWS ELB, Nginx, etc)
+// see https://expressjs.com/en/guide/behind-proxies.html
+// app.set('trust proxy', 1);
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100 // limit each IP to 100 requests per windowMs
+});
+
+
 
 require('dotenv').config()
 
@@ -59,7 +71,8 @@ app.use(helmet());
 //console.log('Helmet activé', helmet)
 
 //-----------------------------------------------------------------------------
-
+//  apply to all requests
+app.use(limiter);
 
 // Utilisation du path pour enregistrement des photos sur le BE
 app.use('/images', express.static(path.join(__dirname, 'images')));
