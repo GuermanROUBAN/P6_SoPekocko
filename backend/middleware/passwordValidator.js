@@ -1,3 +1,5 @@
+// Plugin password-validator permet de controler graca au passwordSchema les caracteres requis pour le mot de passe
+
 const passwordValidator = require('password-validator');
 
 // Create a schema

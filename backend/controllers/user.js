@@ -13,6 +13,7 @@ const User = require('../models/User');
 // On importe le validateur de mot de passe
 const passwordValidator = require('../middleware/passwordValidator');
 
+// On importe crypto qui va coder l'email de l'utilisateur
 const CryptoJS = require("crypto-js");
 
 
@@ -21,8 +22,8 @@ exports.signup = (req, res, next) => {
     if (passwordValidator.validate(req.body.password)) { // controle de la validation du mot de passe
         bcrypt.hash(req.body.password, 10) // on va commencer par Hasher le MP avec fon assync/ 10 trs de hashage
             .then(hash => { // on va recuperer le hash du MP et l'enregistrer comme le nv user dans la BD
-                var key = CryptoJS.enc.Hex.parse(process.env.Crypto_key);
-                var iv = CryptoJS.enc.Hex.parse(process.env.Crypto_iv);
+                var key = CryptoJS.enc.Hex.parse(process.env.Crypto_key); 
+                var iv = CryptoJS.enc.Hex.parse(process.env.Crypto_iv); 
                 const user = new User({// notre modele mangoose va créér un nouveau user
                     email: CryptoJS.AES.encrypt(req.body.email, key, { iv: iv }).toString(),// cryptage du mot de passe
                     //email:req.body.email,
